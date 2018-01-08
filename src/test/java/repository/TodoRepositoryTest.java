@@ -21,9 +21,7 @@ public class TodoRepositoryTest {
     private static final String NAME = "Todo1";
     private static final TodoPriority PRIORITY = TodoPriority.HIGH;
     private final List<Todo> todos = new ArrayList<Todo>();
-
-    @Mock
-    private TodoRepository todoRepository;
+    private TodoRepository todoRepository = new TodoRepository();
 
     @Before
     public void setUp(){
@@ -33,10 +31,6 @@ public class TodoRepositoryTest {
 
     @Test
     public void getAllTest() throws Exception{
-
-        // given
-        todos.add(new Todo(NAME, PRIORITY));
-        BDDMockito.given(todoRepository.getAll()).willReturn(new ArrayList<Todo>(todos));
 
         // when
         List<Todo> todoList = todoRepository.getAll();
@@ -48,15 +42,11 @@ public class TodoRepositoryTest {
     @Test
     public void storeTest() throws Exception{
 
-        // given
-        BDDMockito.given(todoRepository.store(new Todo(NAME, PRIORITY))).willReturn(true);
-
         // when
         boolean flag = todoRepository.store(new Todo(NAME, PRIORITY));
 
         // then
         // Check if same
-        BDDMockito.then(todoRepository).should().store(new Todo(NAME, PRIORITY));
         Assert.assertThat(flag, org.hamcrest.Matchers.equalTo(true));
     }
 
